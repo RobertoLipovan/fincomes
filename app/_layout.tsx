@@ -37,7 +37,7 @@ const Layout: React.FC = () => {
         <Stack.Screen
           name="account"
           options={{
-            headerTitle: 'Cuenta A',
+            headerTitle: 'Cuenta',
             headerTitleAlign: 'center',
             headerRight: () => (
               <TouchableOpacity 

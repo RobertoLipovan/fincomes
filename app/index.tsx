@@ -16,13 +16,23 @@ export default function Home() {
     fetchAccounts();
   }, []);
 
+  // Calcular el balance total
+  const balanceTotal = accounts.reduce((total, account) => {
+    const balance = account.properties.balance?.formula.number || 0;
+    return total + balance;
+  }, 0);
+
   return (
     <View>
+      <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16 }}>
+        Balance total: {balanceTotal}
+      </Text>
       {accounts.map((account) => (
         <Button
           key={account.id}
-          title={account.properties.nombre.title[0].plain_text}
-          onPress={() => router.push('account')}
+          title={account.properties.nombre.title[0].plain_text + " - " + account.properties.balance?.formula.number}
+          onPress={() => router.push(
+            { pathname: 'account', params: { id: account.id } })}
         />
       ))}
       <StatusBar style="auto" />
