@@ -1,8 +1,9 @@
-import { View, Text, Button } from "react-native";
+import { View, Text, Button, StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { router } from "expo-router";
 import * as React from 'react';
 import AccountsDB from "../models/AccountsDB";
+import { useColorScheme } from '../components/useColorScheme';
 
 export default function Home() {
   const [accounts, setAccounts] = React.useState<any[]>([]);
@@ -22,9 +23,12 @@ export default function Home() {
     return total + balance;
   }, 0);
 
+  const colorScheme = useColorScheme();
+
   return (
-    <View>
-      <Text style={{ fontSize: 18, fontWeight: 'bold', marginBottom: 16 }}>
+    
+    <View style={colorScheme === 'dark' ? styles.containerDark : styles.containerLight}>
+      <Text style={colorScheme === 'dark' ? styles.textDark : styles.textLight}>
         Balance total: {balanceTotal}
       </Text>
       {accounts.map((account) => (
@@ -39,3 +43,22 @@ export default function Home() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  containerDark: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: 'black',
+  },
+  containerLight: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: 'white',
+  },
+  textDark: {
+    color: 'white',
+  },
+  textLight: {
+    color: 'black',
+  },
+});

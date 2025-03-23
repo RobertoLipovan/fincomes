@@ -1,5 +1,7 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Modal, StyleSheet } from 'react-native';
+import { Text, TouchableOpacity, Modal, StyleSheet } from 'react-native';
+import { COLORS } from '../constants';
+import { useColorScheme } from '../components/useColorScheme';
 
 interface SelectionModalProps {
   visible: boolean;
@@ -8,6 +10,7 @@ interface SelectionModalProps {
 }
 
 const SelectionModal: React.FC<SelectionModalProps> = ({ visible, onClose, options }) => {
+  const colorScheme = useColorScheme();
   return (
     <Modal
       visible={visible}
@@ -22,8 +25,8 @@ const SelectionModal: React.FC<SelectionModalProps> = ({ visible, onClose, optio
         onPress={onClose}
       >
         {/* Caja blanca que NO se cierra si la tocas */}
-        <TouchableOpacity activeOpacity={1} style={styles.modalContent}>
-          <Text style={styles.modalTitle}>Crear</Text>
+        <TouchableOpacity activeOpacity={1} style={colorScheme === 'dark' ? styles.modalContentDark : styles.modalContentLight}>
+          <Text style={colorScheme === 'dark' ? styles.modalTitleDark : styles.modalTitleLight}>Crear</Text>
           {options.map((option, index) => (
             <TouchableOpacity key={index} style={styles.button} onPress={onClose}>
               <Text style={styles.buttonText}>{option}</Text>
@@ -43,7 +46,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
-  modalContent: {
+  modalContentDark: {
+    width: 300,
+    backgroundColor: COLORS.dark.neutral900,
+    padding: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+    borderColor: COLORS.dark.neutral800,
+    borderWidth: 1,
+    elevation: 5,
+  },
+  modalContentLight: {
     width: 300,
     backgroundColor: 'white',
     padding: 20,
@@ -51,10 +64,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     elevation: 5,
   },
-  modalTitle: {
+  modalTitleDark: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 20,
+    color: 'white',
+  },
+  modalTitleLight: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: 'black',
   },
   button: {
     width: '100%',
