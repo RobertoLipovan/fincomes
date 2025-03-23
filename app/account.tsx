@@ -9,8 +9,8 @@ import * as React from 'react';
 export default function Account() {
   const params = useLocalSearchParams();
   const id = Array.isArray(params.id) ? params.id[0] : params.id;
-  const [balance, setBalance] = useState("Loading...");
-  const [name, setName] = useState("Loading...");
+  const [balance, setBalance] = useState("Cargando...");
+  const [name, setName] = useState("Cargando...");
   const [transactions, setTransactions] = React.useState<any[]>([]); // Estado para las transacciones
 
   // Crear instancias de AccountsDB y TransactionsDB
