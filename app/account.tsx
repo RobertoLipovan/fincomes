@@ -21,7 +21,7 @@ export default function Account() {
   useEffect(() => {
     const fetchData = async () => {
       const account = await accountsDB.read(id);
-      setBalance(account.properties.balance?.formula.number || "Error");
+      setBalance(account.properties.balance?.formula.number || "Error al cargar el balance");
       setName(account.properties.nombre.title[0].plain_text);
 
       const records = await TransactionsDB.getRecords({
