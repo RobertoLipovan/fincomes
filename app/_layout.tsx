@@ -3,6 +3,7 @@ import { TouchableOpacity } from 'react-native';
 import { Stack } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import SelectionModal from '../components/SelectionModal'; // Importamos el modal
+import { useColorScheme } from '../components/useColorScheme';
 
 const Layout: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -14,9 +15,15 @@ const Layout: React.FC = () => {
     setModalVisible(true);
   };
 
+  const colorScheme = useColorScheme();
+
   return (
     <>
-      <Stack>
+      <Stack
+        screenOptions={{
+          headerStyle: { backgroundColor: colorScheme === 'dark' ? '#000' : '#fff' },
+          headerTintColor: colorScheme === 'dark' ? '#fff' : '#000',
+        }}>
         {/* Pantalla Home */}
         <Stack.Screen
           name="index"
@@ -27,7 +34,7 @@ const Layout: React.FC = () => {
                 style={{ marginRight: 16 }} 
                 onPress={() => openModal(["Transacción", "Cuenta"])} // Opciones para Home
               >
-                <Ionicons name="add" size={24} color="black" />
+                <Ionicons name="add" size={24} color={colorScheme === 'dark' ? 'white' : 'black'} />
               </TouchableOpacity>
             ),
           }}
@@ -44,7 +51,7 @@ const Layout: React.FC = () => {
                 style={{ marginRight: 16 }} 
                 onPress={() => openModal(["Entrada", "Salida"])} // Opciones para Account
               >
-                <Ionicons name="add" size={24} color="black" />
+                <Ionicons name="add" size={24} color={colorScheme === 'dark' ? 'white' : 'black'} />
               </TouchableOpacity>
             ),
           }}

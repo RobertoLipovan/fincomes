@@ -1,10 +1,11 @@
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import AccountsDB from "../models/AccountsDB";
 import TransactionsDB from "../models/TransactionsDB"; // Importar TransactionsDB
 import { useEffect, useState } from "react";
 import Transaction from "../components/Transaction";  
 import * as React from 'react';
+import { useColorScheme } from '../components/useColorScheme';
 
 export default function Account() {
   const params = useLocalSearchParams();
@@ -35,13 +36,15 @@ export default function Account() {
     fetchData();
   }, [id]);
 
+  const colorScheme = useColorScheme();
+
   return (
-    <View>
-      <Text>{name}</Text>
-      <Text>Balance: {balance}</Text>
+    <View style={colorScheme === 'dark' ? styles.containerDark : styles.containerLight}>
+      <Text style={colorScheme === 'dark' ? styles.textDark : styles.textLight}>{name}</Text>
+      <Text style={colorScheme === 'dark' ? styles.textDark : styles.textLight}>Balance: {balance}</Text>
 
       <View>
-        <Text>Transacciones</Text>
+        <Text style={colorScheme === 'dark' ? styles.textDark : styles.textLight}>Transacciones</Text>
         {transactions.map((transaction, index) => (
           <Transaction
             key={index}
@@ -53,3 +56,22 @@ export default function Account() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  containerDark: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: 'black',
+  },
+  containerLight: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: 'white',
+  },
+  textDark: {
+    color: 'white',
+  },
+  textLight: {
+    color: 'black',
+  },
+});
