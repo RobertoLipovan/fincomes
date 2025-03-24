@@ -29,9 +29,14 @@ export default function Home() {
   return (
     
     <View style={colorScheme === 'dark' ? styles.containerDark : styles.containerLight}>
-      <Text style={colorScheme === 'dark' ? styles.headerTextDark : styles.headerTextLight}>
-        Balance total: {balanceTotal}
-      </Text>
+      <View style={styles.spacer}>
+      </View>
+      <View>
+        <Text style={colorScheme === 'dark' ? styles.headerTextDark : styles.headerTextLight}>Balance total</Text>
+        <Text style={colorScheme === 'dark' ? styles.balanceTextDark : styles.balanceTextLight}>
+          {balanceTotal}
+        </Text>
+      </View>
       <View style={colorScheme === 'dark' ? styles.accountListDark : styles.accountListLight}>
         <View style={colorScheme === 'dark' ? styles.accountListHeaderDark : styles.accountListHeaderLight}>
           <Text style={colorScheme === 'dark' ? styles.headerTextDark : styles.headerTextLight}>Cuentas</Text>
@@ -65,18 +70,27 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: 'black',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
   containerLight: {
     flex: 1,
     padding: 16,
     backgroundColor: 'white',
     justifyContent: 'space-between',
+    alignItems: 'center',
   },
-  textDark: {
+  spacer: {
+    height: 16,
+  },
+  balanceTextDark: {
     color: 'white',
+    fontWeight: 'bold',
+    fontSize: 24,
   },
-  textLight: {
+  balanceTextLight: {
     color: 'black',
+    fontWeight: 'bold',
+    fontSize: 24,
   },
   accountListElementTextDark: {
     color: 'white',
@@ -88,23 +102,24 @@ const styles = StyleSheet.create({
   },
   headerTextDark: {
     color: 'white',
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 30,
+    fontWeight: '300',
   },
   headerTextLight: {
     color: 'black',
-    fontSize: 20,
-    fontWeight: 'bold',
-
+    fontSize: 30,
+    fontWeight: '300',
   },
   accountListDark: {
     backgroundColor: COLORS.dark.neutral900,
     borderRadius: 20,
     borderWidth: 1,
     borderColor: COLORS.dark.neutral800,
+    width: '100%',
   },
   accountListLight: {
     backgroundColor: 'white',
+    width: '100%',
   },
   accountListHeaderDark: {
     paddingVertical: 20,
