@@ -1,6 +1,6 @@
 import React from 'react';
-import { Text, TouchableOpacity, Modal, StyleSheet } from 'react-native';
-import { COLORS } from '../constants';
+import { View, Text, TouchableOpacity, Modal, StyleSheet } from 'react-native';
+import { COLORS, RADIUS } from '../constants';
 import { useColorScheme } from '../components/useColorScheme';
 
 interface SelectionModalProps {
@@ -18,21 +18,23 @@ const SelectionModal: React.FC<SelectionModalProps> = ({ visible, onClose, optio
       animationType="fade"
       onRequestClose={onClose}
     >
-      {/* Fondo oscuro que cierra el modal al tocar */}
+      {/* Modal background and close modal */}
       <TouchableOpacity 
-        style={styles.modalContainer} 
+        style={styles.background} 
         activeOpacity={1} 
         onPress={onClose}
       >
-        {/* Caja blanca que NO se cierra si la tocas */}
-        <TouchableOpacity activeOpacity={1} style={colorScheme === 'dark' ? styles.modalContentDark : styles.modalContentLight}>
-          <Text style={colorScheme === 'dark' ? styles.modalTitleDark : styles.modalTitleLight}>Crear</Text>
+        {/* Modal content */}
+        <View style={colorScheme === 'dark' ? styles.modalDark : styles.modalLight}>
+          <View style={styles.header}>
+          <Text style={colorScheme === 'dark' ? styles.titleDark : styles.titleLight}>Crear</Text>
+          </View>
           {options.map((option, index) => (
             <TouchableOpacity key={index} style={styles.button} onPress={onClose}>
               <Text style={styles.buttonText}>{option}</Text>
             </TouchableOpacity>
           ))}
-        </TouchableOpacity>
+        </View>
       </TouchableOpacity>
     </Modal>
   );
@@ -40,23 +42,22 @@ const SelectionModal: React.FC<SelectionModalProps> = ({ visible, onClose, optio
 
 // Estilos
 const styles = StyleSheet.create({
-  modalContainer: {
+  background: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
-  modalContentDark: {
+  modalDark: {
     width: 300,
     backgroundColor: COLORS.dark.neutral900,
-    padding: 20,
-    borderRadius: 10,
+    borderRadius: RADIUS.mediumRadius,
     alignItems: 'center',
     borderColor: COLORS.dark.neutral800,
     borderWidth: 1,
     elevation: 5,
   },
-  modalContentLight: {
+  modalLight: {
     width: 300,
     backgroundColor: 'white',
     padding: 20,
@@ -64,29 +65,31 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     elevation: 5,
   },
-  modalTitleDark: {
-    fontSize: 20,
+  header: {
+    width: '100%',
+    padding: 20,
+    alignItems: 'center',
+    borderBottomColor: COLORS.dark.neutral800,
+    borderBottomWidth: 1,
+  },
+  titleDark: {
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 20,
     color: 'white',
   },
-  modalTitleLight: {
-    fontSize: 20,
+  titleLight: {
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 20,
     color: 'black',
   },
   button: {
     width: '100%',
-    padding: 10,
-    backgroundColor: '#007bff',
-    borderRadius: 5,
+    padding: 20,
     alignItems: 'center',
-    marginBottom: 10,
   },
   buttonText: {
     color: 'white',
-    fontSize: 16,
+    fontSize: 24,
   },
 });
 

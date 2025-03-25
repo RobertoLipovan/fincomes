@@ -5,3 +5,9 @@ export const COLORS = {
         neutral700: '#595959',
     },
 };
+
+export const RADIUS = {
+    smallRadius: 10,
+    mediumRadius: 20,
+    largeRadius: 30,    
+};
