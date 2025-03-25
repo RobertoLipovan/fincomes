@@ -1,10 +1,10 @@
 import { View, Text, Button, StyleSheet, TouchableOpacity } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import { router } from "expo-router";
 import * as React from 'react';
 import AccountsDB from "../models/AccountsDB";
 import { useColorScheme } from '../components/useColorScheme';
 import { COLORS } from '../constants';
+import AccountList from '../components/AccountList';
 
 export default function Home() {
   const [accounts, setAccounts] = React.useState<any[]>([]);
@@ -37,28 +37,7 @@ export default function Home() {
           {balanceTotal}
         </Text>
       </View>
-      <View style={colorScheme === 'dark' ? styles.accountListDark : styles.accountListLight}>
-        <View style={colorScheme === 'dark' ? styles.accountListHeaderDark : styles.accountListHeaderLight}>
-          <Text style={colorScheme === 'dark' ? styles.headerTextDark : styles.headerTextLight}>Cuentas</Text>
-        </View>
-        <View style={colorScheme === 'dark' ? styles.accountListContentDark : styles.accountListContentLight}>
-          {accounts.map((account) => (
-            <TouchableOpacity
-              key={account.id}
-              style={colorScheme === 'dark' ? styles.accountListElementDark : styles.accountListElementLight}
-              onPress={() => router.push(
-                { pathname: 'account', params: { id: account.id } })}
-            >
-              <Text style={colorScheme === 'dark' ? styles.accountListElementTextDark : styles.accountListElementTextLight}>
-                {account.properties.nombre.title[0].plain_text}
-              </Text>
-              <Text style={colorScheme === 'dark' ? styles.accountListElementTextDark : styles.accountListElementTextLight}>
-                {account.properties.balance?.formula.number}
-              </Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </View>
+      <AccountList title="Cuentas" accounts={accounts} routePath="account" />
       <StatusBar style="auto" />
     </View>
   );

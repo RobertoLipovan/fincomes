@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Transaction from "../components/Transaction";  
 import * as React from 'react';
 import { useColorScheme } from '../components/useColorScheme';
+import TransactionsList from '../components/TransactionsList';
 
 export default function Account() {
   const params = useLocalSearchParams();
@@ -16,7 +17,6 @@ export default function Account() {
 
   // Crear instancias de AccountsDB y TransactionsDB
   const accountsDB = new AccountsDB();
-  const transactionsDB = new TransactionsDB();
 
   // Obtener el balance y las transacciones
   useEffect(() => {
@@ -25,13 +25,13 @@ export default function Account() {
       setBalance(account.properties.balance?.formula.number || "Error al cargar el balance");
       setName(account.properties.nombre.title[0].plain_text);
 
-      const records = await TransactionsDB.getRecords({
+      const transactions = await TransactionsDB.getRecords({
         property: "cuenta", // Asegúrate de que "Account" sea el nombre correcto de la propiedad en Notion
         relation: {
           contains: id, // El ID de la cuenta que estás filtrando
         },
       });
-      setTransactions(records);
+      setTransactions(transactions);
     };
     fetchData();
   }, [id]);
@@ -40,38 +40,54 @@ export default function Account() {
 
   return (
     <View style={colorScheme === 'dark' ? styles.containerDark : styles.containerLight}>
-      <Text style={colorScheme === 'dark' ? styles.textDark : styles.textLight}>{name}</Text>
-      <Text style={colorScheme === 'dark' ? styles.textDark : styles.textLight}>Balance: {balance}</Text>
 
-      <View>
-        <Text style={colorScheme === 'dark' ? styles.textDark : styles.textLight}>Transacciones</Text>
-        {transactions.map((transaction, index) => (
-          <Transaction
-            key={index}
-            concept={transaction.properties.concepto.title[0].plain_text}
-            amount={transaction.properties.importe.number}
-          />
-        ))}
+      {/* Un spacer */}
+      <View style={{ height: 16 }} />
+
+      {/* Información de la cuenta */}
+      <View style={styles.accountInfo}>
+        <Text style={colorScheme === 'dark' ? styles.accountTitleDark : styles.accountTitleLight}>{name}</Text>
+        <Text style={colorScheme === 'dark' ? styles.accountBalanceDark : styles.accountBalanceLight}>Balance: {balance}</Text>
       </View>
+
+      {/* Transacciones */}
+      <TransactionsList title="Transacciones" transactions={transactions} />
+
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  accountInfo: {
+    alignItems: 'center',
+  },
   containerDark: {
     flex: 1,
     padding: 16,
     backgroundColor: 'black',
+    justifyContent: 'space-between',
   },
   containerLight: {
     flex: 1,
     padding: 16,
     backgroundColor: 'white',
   },
-  textDark: {
+  accountTitleDark: {
+    fontSize: 24,
+    fontWeight: 'bold',
     color: 'white',
   },
-  textLight: {
+  accountTitleLight: {
+    fontSize: 24,
+    fontWeight: 'bold',
     color: 'black',
+  },
+  accountBalanceDark: {
+    fontSize: 30,
+    color: 'white',
+  },
+  accountBalanceLight: {
+    color: 'black',
+    fontSize: 30,
   },
 });
